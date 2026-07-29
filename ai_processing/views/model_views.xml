@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ai_processing_model_search" model="ir.ui.view">
+        <field name="name">ai.processing.engine.model.search</field>
+        <field name="model">ai.processing.engine.model</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="identifier"/>
+                <field name="remote_label"/>
+                <filter name="available" string="Disponibles" domain="[('available', '=', True)]"/>
+                <filter name="documents" string="Aptos para documentos" domain="[('document_capable', '=', True)]"/>
+                <filter name="needs_check" string="Sin verificar" domain="[('capability_state', 'in', ('unknown', 'failed'))]"/>
+                <group>
+                    <filter name="group_protocol" string="Protocolo" context="{'group_by': 'protocol'}"/>
+                    <filter name="group_capability" string="Capacidad" context="{'group_by': 'capability_state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_ai_processing_model_list" model="ir.ui.view">
+        <field name="name">ai.processing.engine.model.list</field>
+        <field name="model">ai.processing.engine.model</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" editable="bottom">
+                <field name="available" widget="boolean_toggle" readonly="1"/>
+                <field name="identifier" readonly="1"/>
+                <field name="remote_label" readonly="1"/>
+                <field name="protocol" readonly="1"/>
+                <field name="capability_state" widget="badge" readonly="1"/>
+                <field name="temperature"/>
+                <field name="max_output_tokens"/>
+                <field name="success_count" readonly="1"/>
+                <field name="failure_count" readonly="1"/>
+                <button name="action_probe_capability"
+                        type="object"
+                        string="Probar visión"
+                        icon="fa-eye"
+                        invisible="not available"/>
+                <button name="action_back_to_profile"
+                        type="object"
+                        string="Volver"
+                        icon="fa-arrow-left"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ai_processing_model_form" model="ir.ui.view">
+        <field name="name">ai.processing.engine.model.form</field>
+        <field name="model">ai.processing.engine.model</field>
+        <field name="arch" type="xml">
+            <form string="Modelo de AI Processing" create="0" delete="0">
+                <header>
+                    <button name="action_back_to_profile"
+                            type="object"
+                            string="Volver a configuración"
+                            class="btn-secondary"
+                            icon="fa-arrow-left"/>
+                    <button name="action_probe_capability"
+                            type="object"
+                            string="Ejecutar sonda visual"
+                            class="btn-primary"
+                            invisible="not available"/>
+                    <button name="action_admin_approve"
+                            type="object"
+                            string="Aprobar manualmente"
+                            groups="base.group_system"/>
+                    <button name="action_revoke_capability"
+                            type="object"
+                            string="Revocar aprobación"
+                            groups="base.group_system"/>
+                    <field name="capability_state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="identifier" readonly="1"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="profile_id" readonly="1"/>
+                            <field name="protocol" readonly="1"/>
+                            <field name="remote_label" readonly="1"/>
+                            <field name="available" readonly="1"/>
+                            <field name="modalities" readonly="1"/>
+                            <field name="context_length" readonly="1"/>
+                        </group>
+                        <group string="Generación">
+                            <field name="temperature"/>
+                            <field name="max_output_tokens"/>
+                            <field name="capability_checked_at" readonly="1"/>
+                            <field name="capability_message" readonly="1"/>
+                        </group>
+                    </group>
+                    <div class="alert alert-warning" role="alert">
+                        La aprobación manual confirma que el administrador dispone de evidencia
+                        externa de visión/documentos. La sonda visual es preferible.
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ai_processing_models" model="ir.actions.act_window">
+        <field name="name">Modelos de AI Processing</field>
+        <field name="res_model">ai.processing.engine.model</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_ai_processing_model_search"/>
+    </record>
+</odoo>

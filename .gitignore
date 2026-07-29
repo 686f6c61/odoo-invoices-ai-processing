@@ -1,0 +1,54 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.tox/
+.nox/
+.venv/
+venv/
+uv.lock
+
+# Build and documentation
+build/
+dist/
+site/
+*.zip
+*.sha256
+
+# Runtime and local configuration
+.env
+.env.*
+!.env.example
+.secrets/
+secrets/
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.csr
+*.dump
+*.sql
+*.sqlite
+filestore/
+sessions/
+*.log
+
+# Editors and operating systems
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Local tools and artifacts
+.playwright-cli/
+output/
+tmp/

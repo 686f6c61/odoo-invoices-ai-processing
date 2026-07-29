@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ai_processing_inbox_search" model="ir.ui.view">
+        <field name="name">ai.processing.inbox.search</field>
+        <field name="model">ai.processing.inbox</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="subject"/>
+                <field name="sender"/>
+                <field name="message_identifier"/>
+                <filter name="review" string="Revisión" domain="[('state', '=', 'review')]"/>
+                <filter name="problems" string="Con incidencias" domain="[('state', 'in', ('partial', 'failed'))]"/>
+                <group>
+                    <filter name="group_state" string="Estado" context="{'group_by': 'state'}"/>
+                    <filter name="group_company" string="Empresa" context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_ai_processing_inbox_list" model="ir.ui.view">
+        <field name="name">ai.processing.inbox.list</field>
+        <field name="model">ai.processing.inbox</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0">
+                <field name="received_at"/>
+                <field name="subject"/>
+                <field name="sender"/>
+                <field name="state" widget="badge"/>
+                <field name="document_count"/>
+                <field name="invoice_count"/>
+                <field name="failure_count"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ai_processing_inbox_form" model="ir.ui.view">
+        <field name="name">ai.processing.inbox.form</field>
+        <field name="model">ai.processing.inbox</field>
+        <field name="arch" type="xml">
+            <form string="Correo recibido" create="0" edit="0" delete="0">
+                <header>
+                    <button name="action_queue_candidates"
+                            type="object"
+                            string="Procesar candidatos"
+                            class="btn-primary"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" icon="fa-paperclip">
+                            <field name="document_count" widget="statinfo" string="Adjuntos"/>
+                        </button>
+                        <button class="oe_stat_button" icon="fa-file-text-o">
+                            <field name="invoice_count" widget="statinfo" string="Facturas"/>
+                        </button>
+                        <button class="oe_stat_button" icon="fa-exclamation-triangle">
+                            <field name="failure_count" widget="statinfo" string="Fallos"/>
+                        </button>
+                    </div>
+                    <div class="oe_title"><h1><field name="subject"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="sender"/>
+                            <field name="recipients"/>
+                            <field name="received_at"/>
+                        </group>
+                        <group>
+                            <field name="message_identifier"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="eligible_count"/>
+                            <field name="ignored_count"/>
+                        </group>
+                    </group>
+                    <field name="document_ids" nolabel="1">
+                        <list create="0" delete="0">
+                            <field name="name"/>
+                            <field name="detected_mimetype"/>
+                            <field name="byte_size"/>
+                            <field name="state" widget="badge"/>
+                            <field name="decision_reason"/>
+                            <field name="attempt_count"/>
+                            <field name="move_id"/>
+                            <button name="action_open_move"
+                                    type="object"
+                                    string="Abrir borrador"
+                                    invisible="not move_id"/>
+                        </list>
+                    </field>
+                </sheet>
+                <chatter open_attachments="True"/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_ai_processing_document_form" model="ir.ui.view">
+        <field name="name">ai.processing.document.form</field>
+        <field name="model">ai.processing.document</field>
+        <field name="arch" type="xml">
+            <form string="Documento recibido" create="0" edit="0" delete="0">
+                <header>
+                    <button name="action_queue"
+                            type="object"
+                            string="Procesar o reintentar"
+                            class="btn-primary"
+                            invisible="state not in ('candidate', 'failed', 'other')"/>
+                    <button name="action_ignore"
+                            type="object"
+                            string="Ignorar"
+                            invisible="state in ('invoice', 'duplicate', 'reserved')"/>
+                    <button name="action_open_move"
+                            type="object"
+                            string="Abrir borrador"
+                            invisible="not move_id"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="company_id"/>
+                            <field name="inbox_id"/>
+                            <field name="move_id"/>
+                            <field name="attachment_id"/>
+                            <field name="received_at"/>
+                        </group>
+                        <group>
+                            <field name="declared_mimetype"/>
+                            <field name="detected_mimetype"/>
+                            <field name="byte_size"/>
+                            <field name="page_count"/>
+                            <field name="checksum"/>
+                            <field name="duplicate_of_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="decision_reason"/>
+                        <field name="safe_error"/>
+                    </group>
+                    <notebook>
+                        <page string="Resultado">
+                            <field name="result_payload" widget="json" nolabel="1"/>
+                        </page>
+                        <page string="Intentos">
+                            <field name="attempt_ids" nolabel="1">
+                                <list create="0" delete="0">
+                                    <field name="started_at"/>
+                                    <field name="model_identifier"/>
+                                    <field name="role" widget="badge"/>
+                                    <field name="outcome" widget="badge"/>
+                                    <field name="duration_ms"/>
+                                    <field name="error_category"/>
+                                    <field name="safe_error"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ai_processing_inbox" model="ir.actions.act_window">
+        <field name="name">Bandeja de facturas</field>
+        <field name="res_model">ai.processing.inbox</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_ai_processing_inbox_search"/>
+    </record>
+
+    <record id="action_ai_processing_documents" model="ir.actions.act_window">
+        <field name="name">Documentos recibidos</field>
+        <field name="res_model">ai.processing.document</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_ai_processing_attempts" model="ir.actions.act_window">
+        <field name="name">Historial de procesamiento</field>
+        <field name="res_model">ai.processing.attempt</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_ai_processing_attempt_list" model="ir.ui.view">
+        <field name="name">ai.processing.attempt.list</field>
+        <field name="model">ai.processing.attempt</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0" delete="0">
+                <field name="started_at"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="document_id"/>
+                <field name="move_id"/>
+                <field name="protocol"/>
+                <field name="model_identifier"/>
+                <field name="role" widget="badge"/>
+                <field name="outcome" widget="badge"/>
+                <field name="duration_ms"/>
+                <field name="error_category"/>
+                <field name="safe_error"/>
+            </list>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,44 @@
+name: ai-processing-test
+
+services:
+  db:
+    image: postgres:17.6-bookworm@sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: odoo-test-only
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U odoo -d postgres"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+    tmpfs:
+      - /var/lib/postgresql/data
+
+  odoo-test:
+    build:
+      context: .
+      dockerfile: Dockerfile.odoo
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      HOST: db
+      PORT: "5432"
+      USER: odoo
+      PASSWORD: odoo-test-only
+    command:
+      - odoo
+      - --database=ai_processing_test
+      - --db_host=db
+      - --db_port=5432
+      - --db_user=odoo
+      - --db_password=odoo-test-only
+      - --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons
+      - --init=ai_processing
+      - --test-enable
+      - --test-tags=/ai_processing
+      - --stop-after-init
+      - --without-demo=true
+      - --http-interface=127.0.0.1
+      - --log-level=test

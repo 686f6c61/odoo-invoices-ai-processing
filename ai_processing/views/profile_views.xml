@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ai_processing_profile_form" model="ir.ui.view">
+        <field name="name">ai.processing.profile.form</field>
+        <field name="model">ai.processing.profile</field>
+        <field name="arch" type="xml">
+            <form string="AI Processing" create="0" delete="0">
+                <header>
+                    <button name="action_test_and_read_models"
+                            type="object"
+                            string="Probar conexión y leer modelos"
+                            class="btn-primary"
+                            icon="fa-cloud-download"/>
+                    <button name="action_save_configuration"
+                            type="object"
+                            string="Guardar configuración"
+                            class="btn-secondary"
+                            icon="fa-save"/>
+                    <button name="action_open_models"
+                            type="object"
+                            string="Modelos"
+                            icon="fa-eye"/>
+                    <field name="setup_step"
+                           widget="statusbar"
+                           statusbar_visible="service,models,selection,consent,ready"/>
+                </header>
+                <sheet>
+                    <field name="setup_ready" invisible="1"/>
+                    <field name="master_key_ready" invisible="1"/>
+                    <div class="oe_title">
+                        <label for="company_id"/>
+                        <h1><field name="company_id" readonly="1"/></h1>
+                        <p class="text-muted">
+                            Configure el servicio, lea sus modelos y seleccione únicamente
+                            modelos capaces de leer facturas.
+                        </p>
+                    </div>
+
+                    <div class="alert alert-success" role="alert" invisible="not setup_ready">
+                        <strong>Configuración lista.</strong>
+                        Los documentos pueden analizarse, pero nunca se publican ni pagan automáticamente.
+                    </div>
+                    <div class="alert alert-warning" role="alert" invisible="setup_ready">
+                        Complete el paso resaltado. Puede guardar y volver más tarde sin perder los cambios.
+                    </div>
+
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_inbox" type="object" class="oe_stat_button" icon="fa-inbox">
+                            <field name="pending_count" widget="statinfo" string="Pendientes"/>
+                        </button>
+                        <button name="action_open_inbox" type="object" class="oe_stat_button" icon="fa-file-text-o">
+                            <field name="processed_count" widget="statinfo" string="Procesadas"/>
+                        </button>
+                        <button name="action_open_models" type="object" class="oe_stat_button" icon="fa-shield">
+                            <field name="fallback_success_count" widget="statinfo" string="Rescates"/>
+                        </button>
+                        <button name="action_open_models" type="object" class="oe_stat_button" icon="fa-exclamation-triangle">
+                            <field name="failed_count" widget="statinfo" string="Fallos"/>
+                        </button>
+                    </div>
+
+                    <notebook>
+                        <page string="Inicio" name="start">
+                            <group string="1 · Servicio y clave">
+                                <group>
+                                    <field name="mode"/>
+                                    <field name="protocol"/>
+                                    <field name="base_url"
+                                           placeholder="https://servidor.example/v1"/>
+                                    <field name="allow_private_endpoint"/>
+                                </group>
+                                <group>
+                                    <field name="api_key_env"
+                                           placeholder="OLLAMA_API_KEY"/>
+                                    <field name="api_key_input"
+                                           password="True"
+                                           placeholder="Pegue una clave nueva; nunca volverá a mostrarse"/>
+                                    <field name="credential_state" widget="badge" readonly="1"/>
+                                    <div class="text-muted" invisible="master_key_ready">
+                                        Para guardar una clave pegada, el servidor debe definir
+                                        <code>AI_PROCESSING_MASTER_KEY</code>. Una variable de entorno
+                                        no necesita cifrado adicional en la base de datos.
+                                    </div>
+                                </group>
+                            </group>
+
+                            <div class="d-flex gap-2 my-3">
+                                <button name="action_test_and_read_models"
+                                        type="object"
+                                        string="2 · Probar conexión y leer modelos"
+                                        class="btn btn-primary"
+                                        icon="fa-refresh"/>
+                                <field name="connection_state" widget="badge" readonly="1"/>
+                            </div>
+                            <group>
+                                <field name="last_catalog_sync" readonly="1"/>
+                                <field name="last_connection_message" readonly="1"/>
+                            </group>
+
+                            <group string="3 · Modelos para documentos">
+                                <group>
+                                    <field name="primary_model_id"
+                                           options="{'no_create': True, 'no_open': False}"/>
+                                    <field name="fallback_model_id"
+                                           options="{'no_create': True, 'no_open': False}"/>
+                                </group>
+                                <group>
+                                    <p class="text-muted">
+                                        Si un modelo no aparece, abra <strong>Modelos</strong> y ejecute
+                                        la sonda visual. El respaldo sólo actúa ante errores temporales
+                                        o respuestas estructuradas inválidas.
+                                    </p>
+                                </group>
+                            </group>
+
+                            <group string="4 · Consentimiento y correo">
+                                <group>
+                                    <field name="transfer_consent"/>
+                                    <field name="alias_address" readonly="1"/>
+                                </group>
+                                <group>
+                                    <p class="text-muted">
+                                        Se enviará el adjunto al servicio seleccionado. El cuerpo del
+                                        correo no se usa como instrucción. El alias necesita un dominio
+                                        de alias y una pasarela entrante configurados en Odoo.
+                                    </p>
+                                </group>
+                            </group>
+
+                            <div class="d-flex justify-content-end mt-4">
+                                <button name="action_save_configuration"
+                                        type="object"
+                                        string="Guardar configuración"
+                                        class="btn btn-primary"
+                                        icon="fa-save"/>
+                            </div>
+                        </page>
+
+                        <page string="Correo y seguridad" name="mail_security">
+                            <group string="Remitentes y caudal">
+                                <field name="allowed_sender_domains"
+                                       placeholder="proveedor.es&#10;asesoria.example"/>
+                                <field name="emails_per_minute"/>
+                                <field name="attachments_per_email"/>
+                            </group>
+                            <div class="alert alert-info" role="alert">
+                                Sin dominios configurados se acepta cualquier remitente. Al introducirlos
+                                se aceptan el dominio exacto y sus subdominios, nunca coincidencias parciales.
+                                Este filtro no sustituye SPF, DKIM ni DMARC en la pasarela de correo.
+                            </div>
+                        </page>
+
+                        <page string="Avanzado" name="advanced">
+                            <group>
+                                <group string="Salida y PDF">
+                                    <field name="structured_mode"/>
+                                    <field name="pdf_engine" invisible="protocol != 'openrouter'"/>
+                                    <field name="pdf_detail" invisible="protocol != 'openai'"/>
+                                    <field name="confidence_threshold"/>
+                                </group>
+                                <group string="Límites">
+                                    <field name="timeout_seconds"/>
+                                    <field name="max_document_mb"/>
+                                    <field name="max_pdf_pages"/>
+                                    <field name="max_visual_pages"
+                                           invisible="protocol not in ('ollama', 'openai_compatible')"/>
+                                </group>
+                            </group>
+                            <group string="Guía adicional de extracción">
+                                <field name="company_guidance"
+                                       placeholder="Ejemplo: conservar por separado cuotas, primas y recargos visibles."/>
+                            </group>
+                            <div class="d-flex justify-content-between mt-4">
+                                <button name="action_open_models"
+                                        type="object"
+                                        string="Editar temperatura y tokens por modelo"
+                                        class="btn btn-secondary"
+                                        icon="fa-sliders"/>
+                                <button name="action_save_configuration"
+                                        type="object"
+                                        string="Guardar y volver al inicio"
+                                        class="btn btn-primary"
+                                        icon="fa-arrow-left"/>
+                            </div>
+                        </page>
+
+                        <page string="Guía y FAQ" name="help">
+                            <field name="guide_html" widget="html" readonly="1" nolabel="1"/>
+                            <field name="faq_html" widget="html" readonly="1" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_open_ai_processing_profile" model="ir.actions.server">
+        <field name="name">AI Processing</field>
+        <field name="model_id" ref="model_ai_processing_profile"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_open_company_profile()</field>
+    </record>
+</odoo>

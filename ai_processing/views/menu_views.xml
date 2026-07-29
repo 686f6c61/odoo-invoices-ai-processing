@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_ai_processing_root"
+              name="AI Processing"
+              parent="account.menu_finance"
+              sequence="6"
+              groups="account.group_account_invoice"/>
+    <menuitem id="menu_ai_processing_inbox"
+              name="Bandeja de facturas"
+              parent="menu_ai_processing_root"
+              action="action_ai_processing_inbox"
+              sequence="10"/>
+    <menuitem id="menu_ai_processing_documents"
+              name="Documentos"
+              parent="menu_ai_processing_root"
+              action="action_ai_processing_documents"
+              sequence="20"/>
+    <menuitem id="menu_ai_processing_attempts"
+              name="Historial"
+              parent="menu_ai_processing_root"
+              action="action_ai_processing_attempts"
+              sequence="30"/>
+    <menuitem id="menu_ai_processing_configuration"
+              name="Configuración"
+              parent="menu_ai_processing_root"
+              action="action_open_ai_processing_profile"
+              sequence="40"
+              groups="base.group_system"/>
+</odoo>
