@@ -1,0 +1,3 @@
+-r requirements-audit.txt
+-r requirements-docs.txt
+ruff==0.16.0

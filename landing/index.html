@@ -1,0 +1,693 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AI Processing para Odoo 19 · 00B</title>
+    <meta
+      name="description"
+      content="Envía una factura por correo: la IA extrae proveedor, conceptos e importes y crea la factura de proveedor en Odoo como borrador revisable."
+    >
+    <link rel="canonical" href="https://ai-processing.686f6c61.dev/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="AI Processing · Del correo a Odoo">
+    <meta
+      property="og:description"
+      content="La IA lee la factura y la incorpora directamente a Odoo como borrador, con el adjunto original y los datos listos para revisar."
+    >
+    <meta property="og:url" content="https://ai-processing.686f6c61.dev/">
+    <meta
+      property="og:image"
+      content="https://ai-processing.686f6c61.dev/og-image.png"
+    >
+    <meta name="twitter:card" content="summary_large_image">
+
+    <meta name="theme-color" content="#f3efe5">
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./styles.css">
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "AI Processing",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Odoo 19",
+        "softwareVersion": "19.0.1.0.1",
+        "description": "Extensión que recibe facturas, extrae sus datos mediante IA y crea facturas de proveedor en Odoo como borradores revisables.",
+        "license": "https://www.gnu.org/licenses/lgpl-3.0.html",
+        "author": {
+          "@type": "Organization",
+          "name": "00B",
+          "sameAs": [
+            "https://x.com/686f6c61",
+            "https://github.com/686f6c61"
+          ]
+        },
+        "url": "https://ai-processing.686f6c61.dev/"
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+    <header class="site-header">
+      <a class="brand" href="#inicio" aria-label="AI Processing, inicio">
+        <span class="brand__mark" aria-hidden="true">AI</span>
+        <span class="brand__name">Processing</span>
+        <span class="brand__edition">/ Odoo 19</span>
+      </a>
+
+      <nav class="site-nav" aria-label="Navegación principal">
+        <a href="#flujo">Flujo</a>
+        <a href="#control">Control</a>
+        <a href="#compatibilidad">Compatibilidad</a>
+        <a href="#faq">FAQ</a>
+        <a href="./instalar.html">Instalar</a>
+      </nav>
+
+      <a
+        class="header-cta"
+        href="https://github.com/686f6c61/odoo-invoices-ai-processing"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Repositorio
+        <span aria-hidden="true">↗</span>
+      </a>
+    </header>
+
+    <main id="contenido">
+      <section class="hero" id="inicio" aria-labelledby="hero-title">
+        <div class="hero__copy">
+          <p class="eyebrow">
+            <span class="status-dot" aria-hidden="true"></span>
+            Facturas de proveedor → Odoo 19
+          </p>
+          <h1 id="hero-title">
+            Envía la factura.
+            <span>La IA la crea en Odoo.</span>
+          </h1>
+          <p class="hero__lede">
+            Reenvía un correo o adjunta un documento. AI Processing identifica
+            la factura, lee proveedor, fechas, conceptos e importes y crea una
+            factura de proveedor en Odoo como borrador. Tú revisas y aplicas los
+            datos; nunca se contabiliza sola.
+          </p>
+
+          <div class="hero__actions">
+            <a class="button button--primary" href="#flujo">
+              Ver cómo funciona
+              <span aria-hidden="true">↓</span>
+            </a>
+          </div>
+
+          <ul class="hero__facts" aria-label="Datos principales">
+            <li>
+              <span>Entrada</span>
+              <strong>Correo o adjunto</strong>
+            </li>
+            <li>
+              <span>Resultado</span>
+              <strong>Factura en Odoo</strong>
+            </li>
+            <li>
+              <span>Estado</span>
+              <strong>Borrador revisable</strong>
+            </li>
+          </ul>
+        </div>
+
+        <div class="hero__visual">
+          <div class="visual-label visual-label--top">Correo → IA → Odoo</div>
+
+          <div
+            class="product-demo"
+            role="img"
+            aria-label="Una factura PDF recibida por correo es leída por la IA y aparece en Odoo como factura de proveedor en borrador"
+          >
+            <div class="product-demo__bar">
+              <div aria-hidden="true"><span></span><span></span><span></span></div>
+              <strong>Entrada automática</strong>
+              <span>AI Processing / Odoo 19</span>
+            </div>
+
+            <div class="product-demo__body">
+              <div class="demo-route" aria-hidden="true">
+                <article class="demo-stage demo-stage--mail">
+                  <div class="demo-stage__head">
+                    <span>01</span>
+                    <div>
+                      <small>Correo recibido</small>
+                      <strong>Factura de Seguros Atlas</strong>
+                    </div>
+                  </div>
+                  <p>administracion@seguros-atlas.es</p>
+                  <div class="demo-attachment demo-attachment--invoice">
+                    <span>PDF</span>
+                    <strong>factura_RC_0427.pdf</strong>
+                    <small>Factura válida</small>
+                  </div>
+                  <div class="demo-attachment demo-attachment--ignored">
+                    <span>GIF</span>
+                    <strong>firma.gif</strong>
+                    <small>Ignorado</small>
+                  </div>
+                </article>
+
+                <div class="demo-connector">
+                  <span>IA</span>
+                  <svg viewBox="0 0 92 24" focusable="false">
+                    <path d="M2 12h82"/>
+                    <path d="m74 3 12 9-12 9"/>
+                  </svg>
+                  <small>leyendo factura</small>
+                </div>
+
+                <article class="demo-stage demo-stage--odoo">
+                  <div class="demo-odoo__head">
+                    <div>
+                      <small>Odoo · Factura de proveedor</small>
+                      <strong>Borrador creado</strong>
+                    </div>
+                    <span>Borrador</span>
+                  </div>
+                  <dl>
+                    <div>
+                      <dt>Proveedor propuesto</dt>
+                      <dd>Seguros Atlas, S.A.</dd>
+                    </div>
+                    <div>
+                      <dt>Referencia</dt>
+                      <dd>RC-2026-0427</dd>
+                    </div>
+                    <div>
+                      <dt>Total</dt>
+                      <dd>452,80 €</dd>
+                    </div>
+                  </dl>
+                  <div class="demo-odoo__attachment">
+                    <span aria-hidden="true">↳</span>
+                    <strong>Adjunto original conservado</strong>
+                  </div>
+                  <div class="demo-odoo__footer">
+                    <span><b>✓</b> Datos listos</span>
+                    <span>Revisar y aplicar</span>
+                  </div>
+                </article>
+              </div>
+
+              <div class="demo-proof" aria-hidden="true">
+                <span><b>01</b> PDF detectado</span>
+                <span><b>02</b> Datos extraídos</span>
+                <span><b>03</b> Creada en Odoo</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="visual-stamp" aria-hidden="true">
+            <span>En Odoo</span>
+            <strong>como borrador</strong>
+            <span>lista para revisar</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="provider-strip" aria-label="Servicios compatibles">
+        <p>OpenAI</p>
+        <span aria-hidden="true">◆</span>
+        <p>OpenRouter</p>
+        <span aria-hidden="true">◆</span>
+        <p>Ollama</p>
+        <span aria-hidden="true">◆</span>
+        <p>Tu servidor</p>
+        <span aria-hidden="true">◆</span>
+        <p>OpenAI-compatible</p>
+      </div>
+
+      <section class="section workflow" id="flujo" aria-labelledby="workflow-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">01 · Flujo</p>
+            <h2 id="workflow-title">Un correo entra. Una factura aparece en Odoo.</h2>
+          </div>
+          <p>
+            En modo automático, AI Processing filtra los adjuntos, lee la
+            factura y crea el borrador dentro de Odoo. El correo, el PDF y el
+            resultado quedan unidos para poder comprobarlo.
+          </p>
+        </div>
+
+        <ol class="workflow-grid">
+          <li class="workflow-card">
+            <span class="workflow-card__number">01</span>
+            <div class="workflow-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64">
+                <rect x="7" y="13" width="50" height="38"/>
+                <path d="m8 15 24 20 24-20"/>
+              </svg>
+            </div>
+            <h3>Envía</h3>
+            <p>
+              Reenvía la factura a la dirección de Odoo o analiza un adjunto
+              desde una factura de proveedor ya creada.
+            </p>
+            <span class="workflow-card__meta">Ritmo de entrada configurable</span>
+          </li>
+
+          <li class="workflow-card workflow-card--blue">
+            <span class="workflow-card__number">02</span>
+            <div class="workflow-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64">
+                <path d="M8 10h48L40 34v16l-16 4V34Z"/>
+              </svg>
+            </div>
+            <h3>Clasifica</h3>
+            <p>
+              Separa las facturas de firmas, logotipos, duplicados y otros
+              archivos para que el equipo revise solo lo importante.
+            </p>
+            <span class="workflow-card__meta">Solo documentos útiles</span>
+          </li>
+
+          <li class="workflow-card">
+            <span class="workflow-card__number">03</span>
+            <div class="workflow-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64">
+                <rect x="9" y="9" width="46" height="46"/>
+                <circle cx="32" cy="32" r="10"/>
+                <path d="M32 2v7M32 55v7M2 32h7M55 32h7"/>
+              </svg>
+            </div>
+            <h3>Extrae</h3>
+            <p>
+              Propone proveedor, NIF, fechas, conceptos, importes, impuestos,
+              moneda e IBAN, y señala lo que no puede confirmar.
+            </p>
+            <span class="workflow-card__meta">Lectura principal + respaldo</span>
+          </li>
+
+          <li class="workflow-card workflow-card--lime">
+            <span class="workflow-card__number">04</span>
+            <div class="workflow-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64">
+                <rect x="10" y="7" width="44" height="50"/>
+                <path d="M20 22h24M20 31h24M20 40h12M37 45l6 6 12-16"/>
+              </svg>
+            </div>
+            <h3>Crea en Odoo</h3>
+            <p>
+              Crea la factura de proveedor en estado borrador, conserva el PDF
+              y deja los datos propuestos listos para revisar y aplicar.
+            </p>
+            <span class="workflow-card__meta">Directo a Odoo, sin publicar</span>
+          </li>
+        </ol>
+      </section>
+
+      <section class="control" id="control" aria-labelledby="control-title">
+        <div class="control__statement">
+          <p class="eyebrow eyebrow--light">02 · Control</p>
+          <h2 id="control-title">
+            Automatiza la lectura.
+            <span>No la responsabilidad.</span>
+          </h2>
+        </div>
+
+        <div class="control__rules">
+          <article>
+            <span aria-hidden="true">×</span>
+            <div>
+              <h3>No contabiliza</h3>
+              <p>Sí crea la factura como borrador en Odoo; nunca publica el asiento.</p>
+            </div>
+          </article>
+          <article>
+            <span aria-hidden="true">×</span>
+            <div>
+              <h3>No paga</h3>
+              <p>No ordena pagos ni toca el flujo bancario.</p>
+            </div>
+          </article>
+          <article>
+            <span aria-hidden="true">×</span>
+            <div>
+              <h3>No inventa proveedores</h3>
+              <p>La aplicación exige una coincidencia exacta con un proveedor existente.</p>
+            </div>
+          </article>
+          <article>
+            <span aria-hidden="true">✓</span>
+            <div>
+              <h3>Sí deja evidencia</h3>
+              <p>Conserva adjuntos, intentos, estados, alertas y el resultado propuesto.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section
+        class="section compatibility"
+        id="compatibilidad"
+        aria-labelledby="compatibility-title"
+      >
+        <div class="section-heading section-heading--split">
+          <div>
+            <p class="eyebrow">03 · Compatibilidad</p>
+            <h2 id="compatibility-title">Tu proveedor. Tus modelos. Tus límites.</h2>
+          </div>
+          <p>
+            Elige dónde se leen tus facturas y cambia de servicio cuando lo
+            necesites. Si la primera opción falla, la segunda continúa el trabajo.
+          </p>
+        </div>
+
+        <div class="provider-grid">
+          <article class="provider-card provider-card--featured">
+            <div class="provider-card__top">
+              <span>01</span>
+              <span class="provider-card__state">Nativo</span>
+            </div>
+            <h3>OpenAI</h3>
+            <p>Conecta tu cuenta y utiliza modelos capaces de leer documentos.</p>
+            <span class="provider-card__fit">Cuenta directa</span>
+          </article>
+
+          <article class="provider-card">
+            <div class="provider-card__top">
+              <span>02</span>
+              <span class="provider-card__state">Router</span>
+            </div>
+            <h3>OpenRouter</h3>
+            <p>Compara alternativas y cambia de modelo sin alterar el trabajo del equipo.</p>
+            <span class="provider-card__fit">Más elección</span>
+          </article>
+
+          <article class="provider-card">
+            <div class="provider-card__top">
+              <span>03</span>
+              <span class="provider-card__state">Local / Cloud</span>
+            </div>
+            <h3>Ollama</h3>
+            <p>Trabaja con Ollama Cloud o con modelos alojados en tu entorno.</p>
+            <span class="provider-card__fit">Local o cloud</span>
+          </article>
+
+          <article class="provider-card provider-card--dark">
+            <div class="provider-card__top">
+              <span>04</span>
+              <span class="provider-card__state">Self-hosted</span>
+            </div>
+            <h3>Tu servidor</h3>
+            <p>Mantén el procesamiento dentro de la infraestructura que tú controlas.</p>
+            <span class="provider-card__fit">Control total</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="architecture" id="arquitectura" aria-labelledby="architecture-title">
+        <div class="architecture__intro">
+          <p class="eyebrow eyebrow--light">04 · Tranquilidad</p>
+          <h2 id="architecture-title">Cada factura llega con contexto.</h2>
+          <p>
+            El equipo sabe de qué correo procede, qué adjunto se leyó, qué datos
+            se propusieron y qué puntos requieren una comprobación humana.
+          </p>
+          <a class="text-link text-link--light" href="#faq">
+            Resolver dudas
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+
+        <div class="architecture__stack" aria-label="Controles del producto">
+          <article>
+            <span>Paso 01</span>
+            <strong>Entrada controlada</strong>
+            <small>Solo correos y documentos que cumplen tus reglas</small>
+          </article>
+          <article>
+            <span>Paso 02</span>
+            <strong>Archivos útiles</strong>
+            <small>Separa facturas, anexos, firmas y duplicados</small>
+          </article>
+          <article class="architecture__stack-highlight">
+            <span>Paso 03</span>
+            <strong>Lectura con respaldo</strong>
+            <small>Una segunda opción continúa si la primera no responde</small>
+          </article>
+          <article>
+            <span>Paso 04</span>
+            <strong>Datos comprobables</strong>
+            <small>Proveedor, conceptos e importes con alertas visibles</small>
+          </article>
+          <article>
+            <span>Paso 05</span>
+            <strong>Borrador Odoo</strong>
+            <small>Factura creada en Odoo, con el original y los datos por revisar</small>
+          </article>
+        </div>
+      </section>
+
+      <section class="section configuration" aria-labelledby="configuration-title">
+        <div class="configuration__copy">
+          <p class="eyebrow">05 · Configuración</p>
+          <h2 id="configuration-title">De cero a preparado en cuatro pasos.</h2>
+          <p>
+            La pantalla guía la conexión sin mezclar lo esencial con los
+            controles avanzados.
+          </p>
+        </div>
+
+        <div class="configuration__panel">
+          <div class="panel-bar">
+            <div aria-hidden="true">
+              <span></span><span></span><span></span>
+            </div>
+            <p>AI Processing / Configuración</p>
+            <span>19.0.1</span>
+          </div>
+
+          <ol class="setup-list">
+            <li class="setup-list__done">
+              <span>01</span>
+              <div>
+                <strong>Servicio y clave</strong>
+                <small>Conexión comprobada</small>
+              </div>
+              <b aria-label="Completado">✓</b>
+            </li>
+            <li class="setup-list__done">
+              <span>02</span>
+              <div>
+                <strong>Leer modelos</strong>
+                <small>Catálogo actualizado</small>
+              </div>
+              <b aria-label="Completado">✓</b>
+            </li>
+            <li class="setup-list__active">
+              <span>03</span>
+              <div>
+                <strong>Principal + respaldo</strong>
+                <small>Solo opciones capaces de leer tus documentos</small>
+              </div>
+              <b aria-label="Paso actual">→</b>
+            </li>
+            <li>
+              <span>04</span>
+              <div>
+                <strong>Consentimiento</strong>
+                <small>Autoriza el envío al servicio elegido</small>
+              </div>
+              <b aria-hidden="true">·</b>
+            </li>
+          </ol>
+
+          <div class="panel-note">
+            <span>Correo</span>
+            <p>
+              Conecta un buzón compartido, autoriza los dominios remitentes y
+              ajusta el volumen cuando tu operación lo necesite.
+              <a href="./instalar.html#correo">Ver configuración del correo →</a>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section faq" id="faq" aria-labelledby="faq-title">
+        <div class="section-heading section-heading--split">
+          <div>
+            <p class="eyebrow">06 · FAQ</p>
+            <h2 id="faq-title">Antes de darle acceso a una factura.</h2>
+          </div>
+          <p>
+            Respuestas directas sobre datos, automatización, proveedores y
+            compatibilidad.
+          </p>
+        </div>
+
+        <div class="faq-list">
+          <details>
+            <summary>
+              ¿Crea la factura en Odoo o solo extrae los datos?
+              <span aria-hidden="true">+</span>
+            </summary>
+            <p>
+              La crea directamente en Odoo como factura de proveedor en estado
+              borrador y conserva el documento original. Los datos extraídos
+              quedan listos para que una persona los revise y los aplique.
+            </p>
+          </details>
+
+          <details>
+            <summary>
+              ¿La extensión contabiliza automáticamente?
+              <span aria-hidden="true">+</span>
+            </summary>
+            <p>
+              No. Crear el borrador no publica el asiento. Una persona con
+              permisos contables revisa proveedor, fechas, conceptos, cuentas e
+              impuestos antes de validar la factura.
+            </p>
+          </details>
+
+          <details>
+            <summary>
+              ¿Qué pasa con un GIF, una firma o un archivo dañado?
+              <span aria-hidden="true">+</span>
+            </summary>
+            <p>
+              Se conserva como parte del correo, pero no se envía al modelo. La
+              extensión inspecciona la firma real del archivo, sus dimensiones y
+              sus límites antes de considerarlo candidato.
+            </p>
+          </details>
+
+          <details>
+            <summary>
+              ¿Qué cuenta de correo debo usar?
+              <span aria-hidden="true">+</span>
+            </summary>
+            <p>
+              Para recibir, recomendamos un buzón compartido y dedicado, como
+              <code>facturas@empresa.com</code>, conectado a Odoo por IMAP. Para
+              enviar sirve cualquier cuenta cuyo dominio hayas autorizado. No
+              necesitas configurar SMTP saliente para procesar facturas.
+              <a href="./instalar.html#correo">Ver la guía de correo</a>.
+            </p>
+          </details>
+
+          <details>
+            <summary>
+              ¿Puedo usar un servidor propio?
+              <span aria-hidden="true">+</span>
+            </summary>
+            <p>
+              Sí. Admite endpoints OpenAI-compatible y Ollama local. Los
+              endpoints privados requieren una autorización explícita en la
+              configuración.
+            </p>
+          </details>
+
+          <details>
+            <summary>
+              ¿Dónde se guarda la clave de API?
+              <span aria-hidden="true">+</span>
+            </summary>
+            <p>
+              Preferentemente en una variable de entorno del servidor. También
+              puede guardarse cifrada mediante una clave maestra que permanece
+              fuera de la base de datos y de Git.
+            </p>
+          </details>
+
+          <details>
+            <summary>
+              ¿Qué ocurre si falla el modelo principal?
+              <span aria-hidden="true">+</span>
+            </summary>
+            <p>
+              La extensión puede reintentar con un modelo de respaldo
+              previamente verificado y deja registrado qué intento produjo el
+              resultado.
+            </p>
+          </details>
+        </div>
+      </section>
+
+      <section class="closing" aria-labelledby="closing-title">
+        <div>
+          <p class="eyebrow">AI Processing / Odoo 19</p>
+          <h2 id="closing-title">Del correo a Odoo.<br>Sin picar la factura.</h2>
+        </div>
+        <div class="closing__action">
+          <p>
+            La IA lee el documento y crea la factura de proveedor dentro de
+            Odoo. Tu equipo revisa el borrador y mantiene la decisión contable.
+          </p>
+          <a
+            class="button button--dark"
+            href="./instalar.html"
+          >
+            Ver cómo instalar
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__brand">
+        <strong>AI Processing</strong>
+        <span>Facturas de proveedor bajo control</span>
+      </div>
+
+      <nav class="socials" aria-label="Enlaces de AI Processing">
+        <a
+          href="https://x.com/686f6c61"
+          target="_blank"
+          rel="me noopener noreferrer"
+          aria-label="686f6c61 en X"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M5 4l14 16M19 4 5 20"/>
+          </svg>
+          <span>@686f6c61</span>
+        </a>
+        <a
+          href="https://github.com/686f6c61"
+          target="_blank"
+          rel="me noopener noreferrer"
+          aria-label="686f6c61 en GitHub"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M15 22v-3.9c0-1 .1-1.5-.5-2.1 2.8-.3 5.7-1.4 5.7-6.2 0-1.4-.5-2.5-1.3-3.4.1-.3.6-1.6-.1-3.3 0 0-1-.3-3.5 1.3a12 12 0 0 0-6.3 0C6.5 2.8 5.5 3.1 5.5 3.1c-.7 1.7-.2 3-.1 3.3A5 5 0 0 0 4 9.8c0 4.8 3 5.9 5.8 6.2-.4.4-.7.9-.7 1.8V22"/>
+            <path d="M9 19c-2.7.8-2.7-1.2-3.8-1.5"/>
+          </svg>
+          <span>686f6c61</span>
+        </a>
+        <a
+          href="https://github.com/686f6c61/odoo-invoices-ai-processing"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Repositorio odoo-invoices-ai-processing en GitHub"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M4 5h6l2 2h8v12H4Z"/>
+            <path d="M8 11h8M8 15h5"/>
+          </svg>
+          <span>Repositorio</span>
+        </a>
+        <a href="./instalar.html" aria-label="Abrir la guía de instalación">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M5 4h10a4 4 0 0 1 4 4v12H9a4 4 0 0 0-4-4Z"/>
+            <path d="M5 4v12a4 4 0 0 1 4 4M9 8h6M9 12h6"/>
+          </svg>
+          <span>Cómo instalar</span>
+        </a>
+      </nav>
+
+      <p>© 2026 00B · LGPL-3 · AI Processing para Odoo 19</p>
+    </footer>
+  </body>
+</html>

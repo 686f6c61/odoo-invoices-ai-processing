@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_aip_profile_admin,AI Processing profile administrators,model_ai_processing_profile,base.group_system,1,1,1,1
+access_aip_model_admin,AI Processing model administrators,model_ai_processing_engine_model,base.group_system,1,1,1,1
+access_aip_inbox_accountant,AI Processing inbox accounting,model_ai_processing_inbox,account.group_account_invoice,1,1,1,0
+access_aip_document_accountant,AI Processing documents accounting,model_ai_processing_document,account.group_account_invoice,1,1,1,0
+access_aip_attempt_accountant,AI Processing attempts accounting,model_ai_processing_attempt,account.group_account_invoice,1,0,0,0

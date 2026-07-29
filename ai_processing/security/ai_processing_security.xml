@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="rule_ai_processing_profile_company" model="ir.rule">
+        <field name="name">AI Processing profiles by company</field>
+        <field name="model_id" ref="model_ai_processing_profile"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_ai_processing_model_company" model="ir.rule">
+        <field name="name">AI Processing models by company</field>
+        <field name="model_id" ref="model_ai_processing_engine_model"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_ai_processing_inbox_company" model="ir.rule">
+        <field name="name">AI Processing inbox by company</field>
+        <field name="model_id" ref="model_ai_processing_inbox"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_ai_processing_document_company" model="ir.rule">
+        <field name="name">AI Processing documents by company</field>
+        <field name="model_id" ref="model_ai_processing_document"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_ai_processing_attempt_company" model="ir.rule">
+        <field name="name">AI Processing attempts by company</field>
+        <field name="model_id" ref="model_ai_processing_attempt"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

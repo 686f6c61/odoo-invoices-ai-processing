@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f3efe5"/>
+  <path d="M0 0h1200v630H0z" fill="none" stroke="#111413" stroke-width="18"/>
+  <path d="M760 0h440v630H760z" fill="#3457ff" stroke="#111413" stroke-width="6"/>
+  <path d="M810 92h300v190H810z" fill="#fffdf7" stroke="#111413" stroke-width="5"/>
+  <path d="m812 95 148 110 148-110" fill="none" stroke="#111413" stroke-width="5"/>
+  <path d="M960 282v88h-145" fill="none" stroke="#111413" stroke-width="6" stroke-dasharray="15 12"/>
+  <path d="m817 370 18-11v22z" fill="#111413"/>
+  <rect x="805" y="395" width="310" height="145" fill="#d9ff52" stroke="#111413" stroke-width="5"/>
+  <path d="M840 435h115M840 467h225M840 499h170" stroke="#111413" stroke-width="7"/>
+  <circle cx="1100" cy="520" r="54" fill="#f3efe5" stroke="#111413" stroke-width="5"/>
+  <path d="m1075 520 18 18 34-44" fill="none" stroke="#111413" stroke-width="8"/>
+  <rect x="58" y="54" width="76" height="76" fill="#3457ff" stroke="#111413" stroke-width="5"/>
+  <text x="78" y="104" font-family="Arial Black, Arial, sans-serif" font-size="34" fill="#fff">AI</text>
+  <text x="156" y="104" font-family="Arial Black, Arial, sans-serif" font-size="30" fill="#111413">PROCESSING / ODOO 19</text>
+  <text x="62" y="252" font-family="Arial Black, Arial, sans-serif" font-size="92" letter-spacing="-6" fill="#111413">FACTURAS</text>
+  <text x="62" y="342" font-family="Arial Black, Arial, sans-serif" font-size="92" letter-spacing="-6" fill="#3457ff">BAJO CONTROL.</text>
+  <text x="67" y="430" font-family="Arial, sans-serif" font-size="31" fill="#111413">Del adjunto al borrador. La decisión sigue siendo humana.</text>
+  <path d="M64 492h624" stroke="#111413" stroke-width="5"/>
+  <text x="66" y="545" font-family="Courier New, monospace" font-size="23" font-weight="700" fill="#111413">OPENAI · OPENROUTER · OLLAMA · TU SERVIDOR</text>
+</svg>

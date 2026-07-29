@@ -1,0 +1,57 @@
+site_name: Manual de AI Processing
+site_description: Guía de usuario, administración y operación para AI Processing en Odoo 19
+site_author: 00B
+docs_dir: docs
+site_dir: site
+use_directory_urls: true
+strict: true
+
+theme:
+  name: readthedocs
+  language: es
+  highlightjs: true
+
+plugins:
+  - search:
+      lang: es
+
+markdown_extensions:
+  - admonition
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Inicio: index.md
+  - Para usuarios:
+      - Qué es AI Processing: usuarios/que-es.md
+      - Primeros pasos: usuarios/primeros-pasos.md
+      - Enviar facturas por correo: usuarios/enviar-facturas.md
+      - Revisar y aplicar resultados: usuarios/revisar-resultados.md
+      - Estados y acciones: usuarios/estados-y-acciones.md
+      - Buenas prácticas: usuarios/buenas-practicas.md
+  - Para administradores:
+      - Configuración inicial: administracion/configuracion-inicial.md
+      - Proveedores y servidores propios: administracion/proveedores.md
+      - Modelos y respaldo: administracion/modelos.md
+      - Elegir y conectar el correo: administracion/correo.md
+      - Límites y costes: administracion/limites-y-costes.md
+      - Seguridad y privacidad: administracion/seguridad-y-privacidad.md
+  - Operación:
+      - Monitorización diaria: operaciones/monitorizacion.md
+      - Solución de problemas: operaciones/solucion-de-problemas.md
+      - Copias y actualizaciones: operaciones/copias-y-actualizaciones.md
+  - Referencia:
+      - Datos extraídos: referencia/datos-extraidos.md
+      - Glosario: referencia/glosario.md
+      - Preguntas frecuentes: referencia/faq.md
+      - Compatibilidad: COMPATIBILITY.md
+  - Información técnica:
+      - Arquitectura: ARCHITECTURE.md
+      - Configuración técnica: CONFIGURATION.md
+      - FAQ técnica: FAQ.md
+      - Seguridad técnica: SECURITY.md
+      - Independencia: INDEPENDENCE_AUDIT.md
+      - Procedencia: PROVENANCE.md
+      - Clean room: CLEAN_ROOM.md
+      - Terceros: THIRD_PARTY.md

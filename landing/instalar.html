@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cómo instalar AI Processing en Odoo 19 · 00B</title>
+    <meta
+      name="description"
+      content="Guía paso a paso para instalar AI Processing en Odoo 19 Community, conectar tu servicio y validar la primera factura de proveedor."
+    >
+    <link rel="canonical" href="https://ai-processing.686f6c61.dev/instalar.html">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Cómo instalar AI Processing en Odoo 19">
+    <meta
+      property="og:description"
+      content="Requisitos, instalación, configuración y primera factura de prueba."
+    >
+    <meta
+      property="og:url"
+      content="https://ai-processing.686f6c61.dev/instalar.html"
+    >
+    <meta
+      property="og:image"
+      content="https://ai-processing.686f6c61.dev/og-image.png"
+    >
+    <meta name="twitter:card" content="summary_large_image">
+
+    <meta name="theme-color" content="#f3efe5">
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./styles.css">
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Cómo instalar AI Processing en Odoo 19",
+        "description": "Guía de instalación y primera configuración de AI Processing para Odoo 19 Community.",
+        "inLanguage": "es",
+        "author": {
+          "@type": "Organization",
+          "name": "00B",
+          "sameAs": [
+            "https://x.com/686f6c61",
+            "https://github.com/686f6c61"
+          ]
+        },
+        "mainEntityOfPage": "https://ai-processing.686f6c61.dev/instalar.html"
+      }
+    </script>
+  </head>
+  <body class="docs-page">
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+    <header class="site-header">
+      <a class="brand" href="./index.html" aria-label="AI Processing, inicio">
+        <span class="brand__mark" aria-hidden="true">AI</span>
+        <span class="brand__name">Processing</span>
+        <span class="brand__edition">/ Odoo 19</span>
+      </a>
+
+      <nav class="site-nav" aria-label="Navegación principal">
+        <a href="./index.html#flujo">Producto</a>
+        <a href="#requisitos">Requisitos</a>
+        <a href="#pasos">Instalación</a>
+        <a href="#correo">Correo</a>
+        <a href="#problemas">Ayuda</a>
+      </nav>
+
+      <a
+        class="header-cta"
+        href="https://github.com/686f6c61/odoo-invoices-ai-processing"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Repositorio
+        <span aria-hidden="true">↗</span>
+      </a>
+    </header>
+
+    <main id="contenido">
+      <section class="docs-hero" aria-labelledby="docs-title">
+        <div>
+          <p class="eyebrow">
+            <span class="status-dot" aria-hidden="true"></span>
+            Guía de instalación
+          </p>
+          <h1 id="docs-title">De Odoo limpio a tu primera factura de prueba.</h1>
+          <p>
+            Instala AI Processing, conecta el servicio que prefieras y comprueba
+            el resultado con una factura conocida antes de abrir el correo real.
+          </p>
+          <a class="button button--primary" href="#pasos">
+            Empezar instalación
+            <span aria-hidden="true">↓</span>
+          </a>
+        </div>
+
+        <aside class="docs-summary" aria-label="Resumen de la instalación">
+          <p>Antes de empezar</p>
+          <dl>
+            <div>
+              <dt>Versión</dt>
+              <dd>Odoo 19 Community</dd>
+            </div>
+            <div>
+              <dt>Permiso</dt>
+              <dd>Administrador</dd>
+            </div>
+            <div>
+              <dt>Aplicaciones</dt>
+              <dd>Contabilidad + Correo</dd>
+            </div>
+            <div>
+              <dt>Resultado</dt>
+              <dd>Borradores revisables</dd>
+            </div>
+          </dl>
+          <strong>Reserva una factura ya revisada para la comprobación final.</strong>
+        </aside>
+      </section>
+
+      <section class="install-prerequisites" id="requisitos" aria-labelledby="requirements-title">
+        <div>
+          <p class="eyebrow">01 · Requisitos</p>
+          <h2 id="requirements-title">Prepara el terreno.</h2>
+        </div>
+        <ul>
+          <li>Una instalación operativa de Odoo 19 Community.</li>
+          <li>Acceso de administrador para instalar aplicaciones.</li>
+          <li>Contabilidad y Correo instalados en la misma base de datos.</li>
+          <li>Acceso al repositorio público o al paquete del módulo.</li>
+          <li>Una clave del servicio elegido o un servidor propio disponible.</li>
+          <li>Un buzón compartido para recibir facturas, preferiblemente por IMAP.</li>
+        </ul>
+      </section>
+
+      <section class="install-guide" id="pasos" aria-labelledby="install-title">
+        <div class="install-guide__heading">
+          <div>
+            <p class="eyebrow eyebrow--light">02 · Instalación</p>
+            <h2 id="install-title">Seis pasos. Una prueba controlada.</h2>
+          </div>
+          <p>
+            Si Odoo está gestionado por otra persona, comparte esta página con
+            ella y continúa desde el paso 4 cuando el módulo ya aparezca instalado.
+          </p>
+        </div>
+
+        <ol class="install-steps">
+          <li>
+            <span>01</span>
+            <div>
+              <h3>Obtén el módulo</h3>
+              <p>
+                Descarga el repositorio y localiza
+                <code>ai_processing</code>. Si utilizas el despliegue
+                completo del proyecto, esa carpeta ya está incluida.
+              </p>
+              <a
+                class="text-link"
+                href="https://github.com/686f6c61/odoo-invoices-ai-processing"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Abrir repositorio
+                <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </li>
+
+          <li>
+            <span>02</span>
+            <div>
+              <h3>Añádelo a Odoo</h3>
+              <p>
+                Coloca la carpeta <code>ai_processing</code> dentro de una ruta
+                de complementos de Odoo. El servidor necesita también las
+                librerías de lectura de PDF y cifrado declaradas por el módulo.
+              </p>
+              <pre><code>python3 -m pip install requests pypdf pypdfium2 cryptography</code></pre>
+              <p class="install-note">
+                En Docker, Coolify o un servicio gestionado, añade estas
+                dependencias a la imagen; no las instales manualmente en cada reinicio.
+              </p>
+            </div>
+          </li>
+
+          <li>
+            <span>03</span>
+            <div>
+              <h3>Instala AI Processing</h3>
+              <p>
+                Reinicia Odoo, actualiza la lista de aplicaciones y busca
+                <strong>AI Processing</strong>. Pulsa <strong>Activar</strong>.
+                El módulo instala sus menús, permisos y tareas de procesamiento.
+              </p>
+              <p class="install-path">Aplicaciones → Actualizar lista → AI Processing → Activar</p>
+            </div>
+          </li>
+
+          <li>
+            <span>04</span>
+            <div>
+              <h3>Conecta tu servicio</h3>
+              <p>
+                Entra en la configuración guiada, elige OpenAI, OpenRouter,
+                Ollama o tu servidor, y añade la clave de forma segura. Después,
+                lee los modelos y selecciona una opción principal y otra de respaldo.
+              </p>
+              <p class="install-path">Contabilidad → AI Processing → Configuración</p>
+              <div class="install-warning">
+                <strong>Evita el error más común</strong>
+                <p>
+                  En “nombre de variable de entorno” escribe algo como
+                  <code>OLLAMA_API_KEY</code>, nunca la clave completa. Si quieres
+                  pegar la clave, utiliza el campo protegido destinado a ella.
+                </p>
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <span>05</span>
+            <div>
+              <h3>Decide qué puede entrar</h3>
+              <p>
+                Indica los dominios remitentes aceptados, el máximo de correos
+                por minuto y cuántos adjuntos puede llevar cada mensaje. Después
+                conecta un buzón compartido de facturas al correo entrante de Odoo.
+              </p>
+              <p class="install-note">
+                No necesitas configurar una cuenta SMTP saliente. AI Processing
+                recibe facturas; no las envía.
+              </p>
+              <a class="text-link" href="#correo">
+                Elegir y conectar el correo
+                <span aria-hidden="true">↓</span>
+              </a>
+            </div>
+          </li>
+
+          <li>
+            <span>06</span>
+            <div>
+              <h3>Haz una prueba conocida</h3>
+              <p>
+                Envía una factura ya comprobada. Revisa que aparezcan el correo,
+                el PDF correcto, el proveedor, los conceptos y el total. Aplica
+                la propuesta al borrador solo cuando coincida con el documento.
+              </p>
+              <ul class="test-checklist">
+                <li>El proveedor coincide por NIF o VAT.</li>
+                <li>Los conceptos permanecen separados.</li>
+                <li>Base, impuestos y total cuadran.</li>
+                <li>Los logotipos y firmas quedan ignorados.</li>
+                <li>La factura continúa en borrador.</li>
+              </ul>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="mail-setup" id="correo" aria-labelledby="mail-title">
+        <div class="mail-setup__intro">
+          <p class="eyebrow">03 · Correo</p>
+          <h2 id="mail-title">Un buzón compartido. No una cuenta personal.</h2>
+          <p>
+            Para Odoo instalado en tu servidor, crea una dirección estable para
+            las facturas y conéctala por IMAP. El equipo podrá cambiar sin
+            perder el circuito ni mezclar documentos con correos personales.
+          </p>
+          <div class="mail-address">
+            <small>Dirección recomendada</small>
+            <strong>facturas@empresa.com</strong>
+            <span>Recepción dedicada · IMAP · SSL/TLS</span>
+          </div>
+        </div>
+
+        <div class="mail-setup__steps">
+          <ol>
+            <li>
+              <span>01</span>
+              <div>
+                <strong>Crea el buzón</strong>
+                <p>
+                  Usa una cuenta compartida de tu proveedor de correo. No
+                  conectes el buzón personal de quien revisa las facturas.
+                </p>
+              </div>
+            </li>
+            <li>
+              <span>02</span>
+              <div>
+                <strong>Conecta Odoo por IMAP</strong>
+                <p>
+                  En modo desarrollador abre los servidores de correo entrante,
+                  añade host, puerto, SSL/TLS y la credencial del buzón.
+                </p>
+                <code>Ajustes → Técnico → Correos electrónicos → Servidores de correo entrante</code>
+              </div>
+            </li>
+            <li>
+              <span>03</span>
+              <div>
+                <strong>Entrega el correo a AI Processing</strong>
+                <p>
+                  En “Crear un nuevo registro” selecciona
+                  <b>AI Processing incoming email</b> y activa
+                  <b>Conservar adjuntos</b>.
+                </p>
+              </div>
+            </li>
+            <li>
+              <span>04</span>
+              <div>
+                <strong>Autoriza y prueba</strong>
+                <p>
+                  Añade primero tu dominio como remitente permitido, pulsa
+                  “Probar y confirmar” y envía una factura ya revisada.
+                </p>
+              </div>
+            </li>
+          </ol>
+
+          <aside>
+            <strong>¿Desde qué cuenta se puede enviar?</strong>
+            <p>
+              Desde cualquier dirección cuyo dominio hayas autorizado. El
+              plugin filtra dominios, no obliga a una cuenta concreta.
+            </p>
+            <strong>¿Y el alias que muestra el módulo?</strong>
+            <p>
+              Es la ruta interna de AI Processing. Con el buzón IMAP, la
+              dirección pública que compartes es
+              <code>facturas@empresa.com</code>.
+            </p>
+            <a
+              class="text-link text-link--light"
+              href="https://www.odoo.com/documentation/19.0/es/applications/general/email_communication/email_servers_inbound.html"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Documentación oficial de Odoo 19
+              <span aria-hidden="true">↗</span>
+            </a>
+          </aside>
+        </div>
+      </section>
+
+      <section class="after-install" aria-labelledby="after-title">
+        <div>
+          <p class="eyebrow">04 · Después</p>
+          <h2 id="after-title">Actualizar sin perder el control.</h2>
+        </div>
+        <div>
+          <ol>
+            <li>Haz copia de la base de datos y del filestore.</li>
+            <li>Actualiza el código del módulo desde el repositorio.</li>
+            <li>Actualiza <code>ai_processing</code> en una ventana de mantenimiento.</li>
+            <li>Repite la factura de prueba antes de reabrir la entrada de correo.</li>
+          </ol>
+          <p>
+            Las claves siguen fuera de Git y los borradores existentes permanecen
+            sujetos a revisión humana.
+          </p>
+        </div>
+      </section>
+
+      <section class="install-help" id="problemas" aria-labelledby="help-title">
+        <div>
+          <p class="eyebrow eyebrow--light">05 · Ayuda rápida</p>
+          <h2 id="help-title">Si algo no aparece, empieza aquí.</h2>
+        </div>
+        <div class="help-grid">
+          <article>
+            <h3>No encuentro el módulo</h3>
+            <p>Comprueba la ruta de complementos, reinicia Odoo y actualiza la lista de aplicaciones.</p>
+          </article>
+          <article>
+            <h3>La clave parece inválida</h3>
+            <p>Distingue entre el nombre de la variable y la clave. El nombre solo admite mayúsculas, números y guiones bajos.</p>
+          </article>
+          <article>
+            <h3>No aparecen modelos</h3>
+            <p>Guarda primero el servicio y la credencial. Después pulsa “Leer modelos” y elige uno capaz de leer documentos.</p>
+          </article>
+          <article>
+            <h3>El alias no tiene dirección</h3>
+            <p>Si usas un buzón IMAP dedicado, envía la prueba a ese buzón. El alias pertenece al enrutamiento interno del módulo.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="docs-closing" aria-labelledby="docs-closing-title">
+        <div>
+          <p class="eyebrow">¿Preparado?</p>
+          <h2 id="docs-closing-title">Instala. Prueba. Revisa.</h2>
+        </div>
+        <a class="button button--dark" href="./index.html">
+          Volver al producto
+          <span aria-hidden="true">←</span>
+        </a>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__brand">
+        <strong>AI Processing</strong>
+        <span>Facturas de proveedor bajo control</span>
+      </div>
+
+      <nav class="socials" aria-label="Enlaces de AI Processing">
+        <a
+          href="https://x.com/686f6c61"
+          target="_blank"
+          rel="me noopener noreferrer"
+          aria-label="686f6c61 en X"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M5 4l14 16M19 4 5 20"/>
+          </svg>
+          <span>@686f6c61</span>
+        </a>
+        <a
+          href="https://github.com/686f6c61"
+          target="_blank"
+          rel="me noopener noreferrer"
+          aria-label="686f6c61 en GitHub"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M15 22v-3.9c0-1 .1-1.5-.5-2.1 2.8-.3 5.7-1.4 5.7-6.2 0-1.4-.5-2.5-1.3-3.4.1-.3.6-1.6-.1-3.3 0 0-1-.3-3.5 1.3a12 12 0 0 0-6.3 0C6.5 2.8 5.5 3.1 5.5 3.1c-.7 1.7-.2 3-.1 3.3A5 5 0 0 0 4 9.8c0 4.8 3 5.9 5.8 6.2-.4.4-.7.9-.7 1.8V22"/>
+            <path d="M9 19c-2.7.8-2.7-1.2-3.8-1.5"/>
+          </svg>
+          <span>686f6c61</span>
+        </a>
+        <a
+          href="https://github.com/686f6c61/odoo-invoices-ai-processing"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Repositorio odoo-invoices-ai-processing en GitHub"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M4 5h6l2 2h8v12H4Z"/>
+            <path d="M8 11h8M8 15h5"/>
+          </svg>
+          <span>Repositorio</span>
+        </a>
+        <a href="./instalar.html" aria-current="page" aria-label="Guía de instalación">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M5 4h10a4 4 0 0 1 4 4v12H9a4 4 0 0 0-4-4Z"/>
+            <path d="M5 4v12a4 4 0 0 1 4 4M9 8h6M9 12h6"/>
+          </svg>
+          <span>Cómo instalar</span>
+        </a>
+      </nav>
+
+      <p>© 2026 00B · LGPL-3 · AI Processing para Odoo 19</p>
+    </footer>
+  </body>
+</html>

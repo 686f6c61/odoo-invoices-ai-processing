@@ -1,0 +1,18 @@
+[tool.ruff]
+target-version = "py312"
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "S"]
+ignore = ["E501", "S101"]
+
+[tool.ruff.lint.per-file-ignores]
+"ai_processing/__manifest__.py" = ["B018"]
+"ai_processing/__init__.py" = ["F401"]
+"ai_processing/models/__init__.py" = ["F401"]
+"ai_processing/models/profile.py" = ["S105"]
+"ai_processing/tests/__init__.py" = ["F401"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests_unit"]
+addopts = "-q"
